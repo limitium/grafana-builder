@@ -10,9 +10,10 @@ echo "Building ${GRAFANA_IMAGE}:${GRAFANA_VERSION}"
 docker_setup() {
   export DOCKER_CLI_EXPERIMENTAL=enabled
   service docker start
-  until service docker status | grep -q "Docker is running"; do
+  until service docker status || true | grep -q "Docker is running"; do
     sleep 1
   done
+  service docker status
 
   docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 }
