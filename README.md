@@ -8,7 +8,7 @@ Grab a repo and run this build script
 ./build.sh limitium/grafana:latest /home/limi/projects/grafana/
 ```
 
-After script finish, new images be available in local docker
+After script finish, new images are available in local docker
 ```shell
 docker images
 REPOSITORY                       TAG                 IMAGE ID            CREATED              SIZE
