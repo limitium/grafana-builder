@@ -1,4 +1,3 @@
-
 ![docker image](https://github.com/limitium/grafana-builder/workflows/Build&push%20docker%20image/badge.svg)
 # grafana-builder
 Multiarch grafana builder
