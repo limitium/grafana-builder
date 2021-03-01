@@ -57,12 +57,8 @@ function package_linux_amd64() {
 
 function package_all() {
   echo "Packaging ALL"
-  #  go run build.go -goos linux -pkg-arch armv6 -skipRpm package-only
-  #  go run build.go -goos linux -pkg-arch armv7 package-only
-  #  go run build.go -goos linux -pkg-arch arm64 package-only
-  #  go run build.go -goos linux -pkg-arch armv7 -libc musl -skipRpm -skipDeb package-only
-  #  go run build.go -goos linux -pkg-arch arm64 -libc musl -skipRpm -skipDeb package-only
-  #  package_linux_amd64
+  cp -r bin distr/
+  cp -r public distr/
   echo "PACKAGE ALL: finished"
 }
 
@@ -70,6 +66,7 @@ build_start=$(date +%s%N)
 
 build_backend
 build_frontend
+package_all
 
 build_total=$((($(date +%s%N) - build_start) / 1000000000))
 echo "Build took: $build_total s"
