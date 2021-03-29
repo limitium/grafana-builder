@@ -26,7 +26,7 @@ GRAFANA_IMAGE="${imageParts[0]}"
 GRAFANA_VERSION="${imageParts[1]}"
 
 clean_up() {
-  docker rm -f grafana-build
+  docker rm -f grafana-builder
   rm -rf ./images/*
 }
 
@@ -36,17 +36,21 @@ run_builder() {
     -w "/go/src/grafana" \
     -v "${GRAFANA_DIR}":/go/src/grafana \
     -v "${PWD}/images":/tmp/images \
-    --name grafana-build \
+    --name grafana-builder \
     ${TAG}:${VERSION} \
     bash -c "/tmp/bootstrap.sh; tail -f /dev/null"
 }
 
+start_docker() {
+  docker exec grafana-builder bash /tmp/start_docker.sh  || exit 1
+}
+
 build_binaries() {
-  docker exec grafana-build /tmp/build_binaries.sh
+  docker exec grafana-builder bash /tmp/build_binaries.sh
 }
 
 build_images() {
-  docker exec grafana-build bash -c "/tmp/build_images.sh ${GRAFANA_IMAGE} ${GRAFANA_VERSION}"
+  docker exec grafana-builder bash -c "/tmp/build_images.sh ${GRAFANA_IMAGE} ${GRAFANA_VERSION}"
 }
 
 load_images() {
@@ -73,7 +77,7 @@ docker_push() {
 
 clean_up
 run_builder
+start_docker
 build_binaries
 build_images
 load_images
-clean_up

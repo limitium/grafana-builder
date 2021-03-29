@@ -16,5 +16,6 @@ RUN apt-get -y update && \
 RUN apt-get -y install qemu binfmt-support qemu-user-static
 
 COPY ./build_binaries.sh /tmp/build_binaries.sh
-COPY build_images.sh /tmp/build_images.sh
+COPY ./build_images.sh /tmp/build_images.sh
+COPY ./start_docker.sh /tmp/start_docker.sh
 COPY ./grafana_container/Dockerfile /tmp/Dockerfile

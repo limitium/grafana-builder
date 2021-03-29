@@ -6,18 +6,6 @@ GRAFANA_VERSION=$2
 
 echo "Building ${GRAFANA_IMAGE}:${GRAFANA_VERSION}"
 
-#Setup docker and qemu
-docker_setup() {
-  export DOCKER_CLI_EXPERIMENTAL=enabled
-  service docker start
-  until service docker status || true | grep -q "Docker is running"; do
-    sleep 1
-  done
-  service docker status
-
-  docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-}
-
 # Build grafana image for a specific arch
 docker_build() {
   arch=$1
@@ -36,8 +24,9 @@ docker_build() {
 
   docker save -o /tmp/images/"${arch}".tar "${tag}"
 }
-docker_setup
 
 docker_build "amd64" "linux-amd64-musl"
 docker_build "arm32v7" "linux-armv7-musl"
 docker_build "arm64v8" "linux-arm64-musl"
+
+chmod -R a+rw /tmp/images/
